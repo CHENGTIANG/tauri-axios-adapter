@@ -1,0 +1,39 @@
+{
+  "name": "tauri-axios-adapter",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/tauri-axios-adapter.cjs.js",
+  "module": "dist/tauri-axios-adapter.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/tauri-axios-adapter.es.js",
+      "require": "./dist/tauri-axios-adapter.cjs.js"
+    }
+  },
+  "keywords": [
+    "tauri-axios-adapter"
+  ],
+  "scripts": {
+    "dev": "vite --config ./dev/vite.config.ts",
+    "build": "tsc && vite build",
+    "tauri": "tauri"
+  },
+  "author": "Grant Chan",
+  "license": "MIT",
+  "peerDependencies": {
+    "axios": "^1.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/api": "^2.0.0-rc.4",
+    "@tauri-apps/cli": "^2.0.0-rc.9",
+    "@tauri-apps/plugin-http": "^2.0.0-rc.2",
+    "@types/node": "^22.5.1",
+    "@vitejs/plugin-vue": "^5.1.3",
+    "axios": "^1.7.7",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "vite-plugin-dts": "^4.0.3",
+    "vue": "^3.4.38"
+  }
+}
