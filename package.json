@@ -17,6 +17,10 @@
     "axios",
     "adapter"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CHENGTIANG/tauri-axios-adapter.git"
+  },
   "scripts": {
     "dev": "vite --config ./dev/vite.config.ts",
     "build": "tsc && vite build",
