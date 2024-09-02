@@ -8,7 +8,8 @@
   "exports": {
     ".": {
       "import": "./dist/tauri-axios-adapter.es.js",
-      "require": "./dist/tauri-axios-adapter.cjs.js"
+      "require": "./dist/tauri-axios-adapter.cjs.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "keywords": [
