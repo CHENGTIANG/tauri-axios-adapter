@@ -13,7 +13,9 @@
     }
   },
   "keywords": [
-    "tauri-axios-adapter"
+    "tauri",
+    "axios",
+    "adapter"
   ],
   "scripts": {
     "dev": "vite --config ./dev/vite.config.ts",
