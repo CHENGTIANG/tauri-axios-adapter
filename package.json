@@ -1,17 +1,25 @@
 {
   "name": "tauri-axios-adapter",
   "version": "0.1.1",
+  "description": "Axios adapter for Tauri v2 HTTP plugin",
   "type": "module",
   "main": "dist/tauri-axios-adapter.cjs.js",
   "module": "dist/tauri-axios-adapter.es.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/tauri-axios-adapter.es.js",
       "require": "./dist/tauri-axios-adapter.cjs.js",
-      "types": "./dist/index.d.ts"
+      "default": "./dist/tauri-axios-adapter.es.js"
     }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
   "keywords": [
     "tauri",
     "axios",
@@ -21,26 +29,37 @@
     "type": "git",
     "url": "git+https://github.com/CHENGTIANG/tauri-axios-adapter.git"
   },
+  "homepage": "https://github.com/CHENGTIANG/tauri-axios-adapter#readme",
+  "bugs": {
+    "url": "https://github.com/CHENGTIANG/tauri-axios-adapter/issues"
+  },
   "scripts": {
     "dev": "vite --config ./dev/vite.config.ts",
-    "build": "tsc && vite build",
+    "typecheck": "tsc --noEmit",
+    "build": "pnpm run typecheck && vite build",
+    "prepublishOnly": "pnpm run build",
     "tauri": "tauri"
   },
   "author": "Grant Chan",
   "license": "MIT",
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": ">=18"
+  },
   "peerDependencies": {
-    "axios": "^1.0.0"
+    "@tauri-apps/plugin-http": "^2.0.0",
+    "axios": "^1.8.3"
   },
   "devDependencies": {
-    "@tauri-apps/api": "^2.0.0",
-    "@tauri-apps/cli": "^2.0.0",
-    "@tauri-apps/plugin-http": "^2.0.0",
-    "@types/node": "^22.7.4",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "axios": "^1.7.7",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.8",
-    "vite-plugin-dts": "^4.2.3",
-    "vue": "^3.5.11"
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/cli": "^2.11.4",
+    "@tauri-apps/plugin-http": "^2.5.9",
+    "@types/node": "^26.3.0",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "axios": "^1.19.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.2",
+    "vite-plugin-dts": "^5.0.3",
+    "vue": "^3.5.41"
   }
 }
