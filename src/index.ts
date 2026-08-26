@@ -1,12 +1,8 @@
 import { fetch } from "@tauri-apps/plugin-http";
 import { AxiosError, AxiosHeaders, type AxiosAdapter, type AxiosResponse, type InternalAxiosRequestConfig, type ResponseType } from "axios"
-// @ts-ignore
 import buildFullPath from "axios/unsafe/core/buildFullPath.js"
-// @ts-ignore
 import buildURL from "axios/unsafe/helpers/buildURL.js"
-// @ts-ignore
 import settle from "axios/unsafe/core/settle.js"
-// @ts-ignore
 import composeSignals from "axios/unsafe/helpers/composeSignals.js"
 
 const tauriAxiosAdapter: AxiosAdapter = async (config: InternalAxiosRequestConfig) => {
