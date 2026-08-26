@@ -20,7 +20,7 @@ const tauriAxiosAdapter: AxiosAdapter = async (config: InternalAxiosRequestConfi
         headers,
         fetchOptions } = config
 
-    url = buildURL(buildFullPath(baseURL, url), params, paramsSerializer);
+    url = buildURL(buildFullPath(baseURL, url, config.allowAbsoluteUrls, config), params, paramsSerializer);
 
     responseType = responseType ? (responseType + '').toLowerCase() as ResponseType : 'text';
 
