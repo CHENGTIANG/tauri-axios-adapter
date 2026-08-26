@@ -22,8 +22,15 @@
   "sideEffects": false,
   "keywords": [
     "tauri",
+    "tauri-v2",
+    "tauri2",
     "axios",
-    "adapter"
+    "adapter",
+    "http",
+    "fetch",
+    "plugin-http",
+    "desktop",
+    "rust"
   ],
   "repository": {
     "type": "git",
