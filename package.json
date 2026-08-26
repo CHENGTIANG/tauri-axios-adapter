@@ -1,6 +1,6 @@
 {
   "name": "tauri-axios-adapter",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Axios adapter for Tauri v2 HTTP plugin",
   "type": "module",
   "main": "dist/tauri-axios-adapter.cjs.js",
