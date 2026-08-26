@@ -91,4 +91,4 @@ async function getResponseData(response: Response, responseType: ResponseType) {
     return response.text()
 }
 
-export default tauriAxiosAdapter
+export { tauriAxiosAdapter, tauriAxiosAdapter as default }

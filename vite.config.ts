@@ -13,7 +13,16 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['@tauri-apps/plugin-http', 'axios', 'axios/unsafe/core/settle.js', 'axios/unsafe/core/buildFullPath.js', 'axios/unsafe/helpers/buildURL.js', 'axios/unsafe/helpers/composeSignals.js'],
+      output: {
+        exports: 'named',
+      },
     },
   },
-  plugins: [dts()]
+  plugins: [
+    dts({
+      entryRoot: 'src',
+      include: ['src/index.ts', 'src/axios-unsafe.d.ts'],
+      exclude: ['tests/**'],
+    }),
+  ],
 });
