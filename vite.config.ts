@@ -12,7 +12,7 @@ export default defineConfig({
       fileName: (format) => `tauri-axios-adapter.${format}.js`,
     },
     rollupOptions: {
-      external: ['@tauri-apps/plugin-http', 'axios', 'axios/unsafe/core/settle.js', 'axios/unsafe/core/buildFullPath.js', 'axios/unsafe/helpers/buildURL.js'],
+      external: ['@tauri-apps/plugin-http', 'axios', 'axios/unsafe/core/settle.js', 'axios/unsafe/core/buildFullPath.js', 'axios/unsafe/helpers/buildURL.js', 'axios/unsafe/helpers/composeSignals.js'],
     },
   },
   plugins: [dts()]

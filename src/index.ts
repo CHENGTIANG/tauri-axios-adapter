@@ -6,6 +6,8 @@ import buildFullPath from "axios/unsafe/core/buildFullPath.js"
 import buildURL from "axios/unsafe/helpers/buildURL.js"
 // @ts-ignore
 import settle from "axios/unsafe/core/settle.js"
+// @ts-ignore
+import composeSignals from "axios/unsafe/helpers/composeSignals.js"
 
 const tauriAxiosAdapter: AxiosAdapter = async (config: InternalAxiosRequestConfig) => {
     let {
@@ -18,7 +20,10 @@ const tauriAxiosAdapter: AxiosAdapter = async (config: InternalAxiosRequestConfi
         timeout,
         responseType,
         headers,
-        fetchOptions } = config
+        fetchOptions,
+        signal,
+        cancelToken,
+    } = config
 
     url = buildURL(buildFullPath(baseURL, url, config.allowAbsoluteUrls, config), params, paramsSerializer);
 
@@ -28,47 +33,52 @@ const tauriAxiosAdapter: AxiosAdapter = async (config: InternalAxiosRequestConfi
         headers.setContentType(null)
     }
 
-    const request = new Request(url!, {
+    const composedSignal = composeSignals(
+        [signal, cancelToken && cancelToken.toAbortSignal()],
+        timeout && timeout > 0 ? timeout : undefined
+    );
+
+    const unsubscribe = composedSignal?.unsubscribe;
+
+    const requestInit: RequestInit = {
         ...fetchOptions,
+        signal: composedSignal,
         method: method!.toUpperCase(),
         body: data,
         headers: headers!.normalize(false).toJSON() as HeadersInit,
-    })
+    };
 
-    const fetchPromise = (async () => {
-        try {
-            const response = await fetch(request)
-            const responseData = await getResponseData(response, responseType)
-            return new Promise<AxiosResponse>((resolve, reject) => {
-                const axiosResponse: AxiosResponse = {
-                    data: responseData,
-                    status: response.status,
-                    statusText: response.statusText,
-                    headers: AxiosHeaders.from(response.headers as any).normalize(false),
-                    config: config,
-                    request,
-                }
-                settle(resolve, reject, axiosResponse)
-            })
-        } catch (err) {
-            throw AxiosError.from(err, err && (err as any).code, config, request)
+    let request: Request | undefined;
+
+    try {
+        request = new Request(url!, requestInit);
+        const response = await fetch(url!, requestInit);
+        const responseData = await getResponseData(response, responseType);
+        unsubscribe?.();
+        return await new Promise<AxiosResponse>((resolve, reject) => {
+            const axiosResponse: AxiosResponse = {
+                data: responseData,
+                status: response.status,
+                statusText: response.statusText,
+                headers: AxiosHeaders.from(response.headers as any).normalize(false),
+                config: config,
+                request,
+            }
+            settle(resolve, reject, axiosResponse)
+        })
+    } catch (err) {
+        unsubscribe?.();
+
+        if (composedSignal?.aborted && composedSignal.reason instanceof AxiosError) {
+            const canceledError = composedSignal.reason;
+            canceledError.config = config;
+            if (request) {
+                canceledError.request = request;
+            }
+            throw canceledError;
         }
-    })();
 
-    if (timeout && timeout > 0) {
-        const timeoutPromise = new Promise<AxiosResponse>((_, reject) =>
-            setTimeout(() => {
-                reject(new AxiosError(
-                    `timeout of ${timeout}ms exceeded`,
-                    AxiosError.ECONNABORTED,
-                    config,
-                    request
-                ));
-            }, timeout)
-        );
-        return await Promise.race([fetchPromise, timeoutPromise]);
-    } else {
-        return fetchPromise;
+        throw AxiosError.from(err, err && (err as any).code, config, request)
     }
 
 }
